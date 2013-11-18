@@ -37,10 +37,13 @@ configure_dotdotdot_conf_file() {
     luminous git \
 'A pile of trs gt cmnds, plus a few config file tweaks.' \
 'Decline if you do not want to enjoy a bunch of shortcuts.'
+    luminous mercurial \
+'My Mercurial config.'
     cyan_line OS-dots
     luminous posix 'Common *nix tools: ,i = install; ,s = search; etc' \
         "$no_biggie"
     luminous x 'X11 config (good for OS X, too)' "$no_biggie"
+    luminous monkey 'My personal config.'
     if [ -d /Library ]; then
         luminous mac \
 'A few spiffups for OS X. Needs more stuff, but should be OK' "$no_biggie"
@@ -49,8 +52,6 @@ configure_dotdotdot_conf_file() {
     fi
 
     cyan_line Language-specific dots
-    luminous ruby '~/.pryrc, terse aliases, etc.' "$no_biggie"
-    luminous perl 'pmf/mi/mt/etc.' "$no_biggie"
     luminous acmeism 'uniscript .vim, more to come' "$no_biggie"
 
     luminous local 'Compile/install to $HOME, if without root' "$no_biggie"
