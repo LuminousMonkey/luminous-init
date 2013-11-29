@@ -20,20 +20,16 @@ configure_dotdotdot_conf_file() {
     echo install_method: symlink > $conf
     echo dots: >> $conf
     no_biggie='Skipping this repo should cause no problems.'
-    luminous loop \
-'This one seems odd, but it is an important piece for plural *-dots to work' \
-'Without it, only the first .zshrc/.bashrc/.vimrc/etc will work. "y" is smart.'
-    luminous sane \
-'These are basic settings that are kind of annoying when they are missing' \
-'Without these, you will not have the "ll" alias, etc. No biggie, though.'
-    luminous 1337 \
-'Semi-aggressive configs for the adventurous.' \
-'Skip this if you want, but it can be more fun with it in place.'
+    luminous_default loop
+    luminous_default sane
+    luminous_default 1337
     luminous tmux \
 'The ,t command (session create-or-attach), plus a tweaked ~/.tmux.conf' \
 "Skip if you do not use tmux (but who doesn't use tmux?)"
     luminous vim \
 'A wad of scripts and plugins for vim' "$no_biggie"
+    luminous emacs \
+        'Emacs config, if that floats your boat' "$no_biggie"
     luminous git \
 'A pile of trs gt cmnds, plus a few config file tweaks.' \
 'Decline if you do not want to enjoy a bunch of shortcuts.'
@@ -50,13 +46,6 @@ configure_dotdotdot_conf_file() {
     elif [ Linux = "`uname`" ]; then
         luminous linux 'Linux-specific stuff' "$no_biggie"
     fi
-
-    cyan_line Language-specific dots
-    luminous acmeism 'uniscript .vim, more to come' "$no_biggie"
-
-    luminous local 'Compile/install to $HOME, if without root' "$no_biggie"
-    luminous unicode 'Input/search for Unicode chars' "$no_biggie"
-    ask_to_add_github_repo exad/zu 'Unarchive anything(?)' "$no_biggie"
 
     cyan_line OK. Created the following in $conf
     cat $conf
@@ -109,6 +98,15 @@ ask_to_add_github_repo() {
 
 luminous() {
     ask_to_add_github_repo LuminousMonkey/$1-dots "$2" "$3"
+}
+
+add_github_repo() {
+    cyan_line "https://github.com/$1"
+    echo "- repo: $gh_base$1" >> $conf
+}
+
+luminous_default() {
+    add_github_repo LuminousMonkey/$1-dots
 }
 
 get_base_dotdotdot_system() {
