@@ -6,7 +6,7 @@ main() {
     set -e
     welcome
     demand_git
-    choose_remote_github_type
+    choose_remote_gitlab_type
     cd
     get_base_dotdotdot_system
     configure_dotdotdot_conf_file
@@ -69,50 +69,50 @@ EOF
     fi
 }
 
-choose_remote_github_type() {
+choose_remote_gitlab_type() {
     binary_prompt \
         h "Using https means you don't have to set up SSH keys." \
         s "Using ssh means you can 'git push' without password prompts." \
-        " Github remotes are: `green h`ttps or `yellow s`sh (default):"
+        " Gitlab remotes are: `green h`ttps or `yellow s`sh (default):"
     if [ 's' = "$got" ]; then
         eval `ssh-agent`
         ssh-add
-        gh_base='git@github.com:'
+        gl_base='git@gitlab.com:'
     elif [ 'h' = "$got" ]; then
-        gh_base='https://github.com/'
+        gl_base='https://gitlab.com/'
     else
         red_line "Uh-oh. Unrecognised '$got'."
     fi
-    echo $gh_base
+    echo $gl_base
 }
 
-ask_to_add_github_repo() {
-    cyan_line "https://github.com/$1"
+ask_to_add_gitlab_repo() {
+    cyan_line "https://gitlab.com/$1"
     binary_prompt y "$2" n "$3" \
         "Choose `green y` to add this repo (default), or `yellow n` to skip:"
     if [ 'y' = "$got" ]; then
-        echo "- repo: $gh_base$1" >> $conf
+        echo "- repo: $gl_base$1" >> $conf
     fi
     echo
 }
 
 luminous() {
-    ask_to_add_github_repo LuminousMonkey/$1-dots "$2" "$3"
+    ask_to_add_gitlab_repo LuminousMonkey/$1-dots "$2" "$3"
 }
 
-add_github_repo() {
-    cyan_line "https://github.com/$1"
-    echo "- repo: $gh_base$1" >> $conf
+add_gitlab_repo() {
+    cyan_line "https://gitlab.com/$1"
+    echo "- repo: $gl_base$1" >> $conf
 }
 
 luminous_default() {
-    add_github_repo LuminousMonkey/$1-dots
+    add_gitlab_repo LuminousMonkey/$1-dots
 }
 
 get_base_dotdotdot_system() {
     [ -e .../... ] && return
     cyan_line Getting the ... base system
-    git clone ${gh_base}ingydotnet/... || exit 2
+    git clone https://github.com/ingydotnet/... || exit 2
 }
 
 red() { printf "\033[31;1m%s\033[0m" "$*"; }
