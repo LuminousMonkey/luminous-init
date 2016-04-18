@@ -39,6 +39,7 @@ configure_dotdotdot_conf_file() {
     luminous posix 'Common *nix tools: ,i = install; ,s = search; etc' \
         "$no_biggie"
     luminous x 'X11 config (good for OS X, too)' "$no_biggie"
+    luminous xmonad 'XMonad config, if you use that.'
     luminous monkey 'My personal config.'
     if [ -d /Library ]; then
         luminous mac \
