@@ -99,11 +99,11 @@ show_repo_url() {
 }
 
 ask_to_add_gitlab_repo() {
-  show_repo_url("$1")
+  show_repo_url $1
   binary_prompt y "$2" n "$3" \
                 "Choose `green y` to add this repo (default), or `yellow n` to skip:"
   if [ 'y' = "$got" ]; then
-    add_repo_line("$1")
+    add_repo_line $1
   fi
   echo
 }
@@ -113,8 +113,8 @@ luminous() {
 }
 
 add_gitlab_repo() {
-  show_repo_url("$1")
-  add_repo_line("$1")
+  show_repo_url $1
+  add_repo_line $1
 }
 
 luminous_default() {
