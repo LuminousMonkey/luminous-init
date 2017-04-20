@@ -14,42 +14,43 @@ main() {
 }
 
 configure_dotdotdot_conf_file() {
-    conf=~/.../conf
-    cyan_line Configuring the $conf file
-    echo
-    echo install_method: symlink > $conf
-    echo dots: >> $conf
-    no_biggie='Skipping this repo should cause no problems.'
-    luminous_default loop
-    luminous_default sane
-    luminous_default 1337
-    luminous tmux \
-'The ,t command (session create-or-attach), plus a tweaked ~/.tmux.conf' \
-"Skip if you do not use tmux (but who doesn't use tmux?)"
-    luminous vim \
-'A wad of scripts and plugins for vim' "$no_biggie"
-    luminous emacs \
-        'Emacs config, if that floats your boat' "$no_biggie"
-    luminous git \
-'A pile of trs gt cmnds, plus a few config file tweaks.' \
-'Decline if you do not want to enjoy a bunch of shortcuts.'
-    luminous mercurial \
-'My Mercurial config.'
-    cyan_line OS-dots
-    luminous posix 'Common *nix tools: ,i = install; ,s = search; etc' \
-        "$no_biggie"
-    luminous x 'X11 config (good for OS X, too)' "$no_biggie"
-    luminous xmonad 'XMonad config, if you use that.'
-    luminous monkey 'My personal config.'
-    if [ -d /Library ]; then
-        luminous mac \
-'A few spiffups for OS X. Needs more stuff, but should be OK' "$no_biggie"
-    elif [ Linux = "`uname`" ]; then
-        luminous linux 'Linux-specific stuff' "$no_biggie"
-    fi
+  conf=~/.../conf
+  cyan_line Configuring the $conf file
+  echo
+  echo dots: >> $conf
+  no_biggie='Skipping this repo should cause no problems.'
+  # Default files, used for all.
+  luminous_default loop
+  luminous_default sane
+  luminous_default 1337
+  luminous monkey 'Personal config for .zsh, .weechat, etc, public data.'
+  luminous tmux \
+           'The ,t command (session create-or-attach), plus a tweaked ~/.tmux.conf' \
+           "Skip if you do not use tmux (but who doesn't use tmux?)"
+  luminous vim \
+           'A wad of scripts and plugins for vim' "$no_biggie"
+  luminous emacs \
+           'Emacs config, if that floats your boat' "$no_biggie"
+  luminous git \
+           'Git aliases plus a few config file tweaks.' \
+           'Decline if you do not want to enjoy a bunch of shortcuts.'
+  luminous mercurial \
+           'My Mercurial config, not used much anymore.'
+  cyan_line OS-dots
+  luminous posix 'Common *nix tools: ,i = install; ,s = search; etc' \
+           "$no_biggie"
+  luminous x 'X11 config (good for OS X, too)' "$no_biggie"
+  luminous xmonad 'XMonad config, if you use that.'
+  luminous public-font 'Free to use fonts that I like.'
+  if [ -d /Library ]; then
+    luminous mac \
+             'A few spiffups for OS X. Needs more stuff, but should be OK' "$no_biggie"
+  elif [ Linux = "`uname`" ]; then
+    luminous linux 'Linux-specific stuff' "$no_biggie"
+  fi
 
-    cyan_line OK. Created the following in $conf
-    cat $conf
+  cyan_line OK. Created the following in $conf
+  cat $conf
 }
 
 welcome() {
@@ -87,14 +88,24 @@ choose_remote_gitlab_type() {
     echo $gl_base
 }
 
+# Add the given repo to the config.
+add_repo_line() {
+  echo "- repo: $gl_base$1.git" >> $conf
+}
+
+# For showing details of the added config
+show_repo_url() {
+  cyan_line "$gl_base$1.git"
+}
+
 ask_to_add_gitlab_repo() {
-    cyan_line "https://gitlab.com/$1"
-    binary_prompt y "$2" n "$3" \
-        "Choose `green y` to add this repo (default), or `yellow n` to skip:"
-    if [ 'y' = "$got" ]; then
-        echo "- repo: $gl_base$1" >> $conf
-    fi
-    echo
+  show_repo_url("$1")
+  binary_prompt y "$2" n "$3" \
+                "Choose `green y` to add this repo (default), or `yellow n` to skip:"
+  if [ 'y' = "$got" ]; then
+    add_repo_line("$1")
+  fi
+  echo
 }
 
 luminous() {
@@ -102,8 +113,8 @@ luminous() {
 }
 
 add_gitlab_repo() {
-    cyan_line "https://gitlab.com/$1"
-    echo "- repo: $gl_base$1" >> $conf
+  show_repo_url("$1")
+  add_repo_line("$1")
 }
 
 luminous_default() {
