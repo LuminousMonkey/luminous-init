@@ -6,7 +6,7 @@ main() {
     set -e
     welcome
     demand_git
-    choose_remote_gitlab_type
+    choose_remote_github_type
     cd
     get_base_dotdotdot_system
     configure_dotdotdot_conf_file
@@ -71,17 +71,17 @@ EOF
     fi
 }
 
-choose_remote_gitlab_type() {
+choose_remote_github_type() {
     binary_prompt \
         h "Using https means you don't have to set up SSH keys." \
         s "Using ssh means you can 'git push' without password prompts." \
-        " Gitlab remotes are: `green h`ttps or `yellow s`sh (default):"
+        " Github remotes are: `green h`ttps or `yellow s`sh (default):"
     if [ 's' = "$got" ]; then
         eval `ssh-agent`
         ssh-add
-        gl_base='git@gitlab.com:'
+        gl_base='git@github.com:'
     elif [ 'h' = "$got" ]; then
-        gl_base='https://gitlab.com/'
+        gl_base='https://github.com/'
     else
         red_line "Uh-oh. Unrecognised '$got'."
     fi
@@ -98,7 +98,7 @@ show_repo_url() {
   cyan_line "$gl_base$1.git"
 }
 
-ask_to_add_gitlab_repo() {
+ask_to_add_github_repo() {
   show_repo_url $1
   binary_prompt y "$2" n "$3" \
                 "Choose `green y` to add this repo (default), or `yellow n` to skip:"
@@ -109,16 +109,16 @@ ask_to_add_gitlab_repo() {
 }
 
 luminous() {
-    ask_to_add_gitlab_repo LuminousMonkey/$1-dots "$2" "$3"
+    ask_to_add_github_repo LuminousMonkey/$1-dots "$2" "$3"
 }
 
-add_gitlab_repo() {
+add_github_repo() {
   show_repo_url $1
   add_repo_line $1
 }
 
 luminous_default() {
-    add_gitlab_repo LuminousMonkey/$1-dots
+    add_github_repo LuminousMonkey/$1-dots
 }
 
 get_base_dotdotdot_system() {
