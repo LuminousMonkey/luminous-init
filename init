@@ -79,9 +79,9 @@ choose_remote_github_type() {
     if [ 's' = "$got" ]; then
         eval `ssh-agent`
         ssh-add
-        gl_base='git@github.com:'
+        gl_base='git@gitlab.luminousmonkey.org:'
     elif [ 'h' = "$got" ]; then
-        gl_base='https://github.com/'
+        gl_base='https://gitlab.luminousmonkey.org/'
     else
         red_line "Uh-oh. Unrecognised '$got'."
     fi
