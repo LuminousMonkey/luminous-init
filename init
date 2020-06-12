@@ -34,19 +34,14 @@ configure_dotdotdot_conf_file() {
   luminous git \
            'Git aliases plus a few config file tweaks.' \
            'Decline if you do not want to enjoy a bunch of shortcuts.'
-  luminous mercurial \
-           'My Mercurial config, not used much anymore.'
   cyan_line OS-dots
   luminous posix 'Common *nix tools: ,i = install; ,s = search; etc' \
            "$no_biggie"
   luminous x 'X11 config (good for OS X, too)' "$no_biggie"
-  luminous xmonad 'XMonad config, if you use that.'
   luminous public-font 'Free to use fonts that I like.'
   if [ -d /Library ]; then
     luminous mac \
              'A few spiffups for OS X. Needs more stuff, but should be OK' "$no_biggie"
-  elif [ Linux = "`uname`" ]; then
-    luminous linux 'Linux-specific stuff' "$no_biggie"
   fi
 
   cyan_line OK. Created the following in $conf
